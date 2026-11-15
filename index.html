@@ -1,4 +1,3 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Portal de Matemáticas</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -623,6 +622,17 @@ section.block>p.lead{margin-top:12px}
 .dmid{text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center}
 .dscore{font:800 1.9rem var(--f-display);color:#FFE15A}
 @media (max-width:640px){.rk{grid-template-columns:minmax(0,1fr) 74px}.sky img{width:46px}.keypad{grid-template-columns:repeat(3,58px)}.duel{grid-template-columns:1fr}.dmid{order:-1}.tbrows{grid-template-columns:1fr 1fr}}
+/* ---------- Juegos de los temas 01 a 03 ---------- */
+.clues{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;width:min(600px,100%)}
+.clues li{background:rgba(255,255,255,.16);border-radius:12px;padding:8px 12px}
+.bopts{grid-template-columns:repeat(4,minmax(0,1fr));width:min(720px,100%)}
+.gopt.bopt{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;font:700 .85rem var(--f-body);background:#FFFFFF}
+.bopt img,.bopt svg{width:76px;height:76px;object-fit:contain}
+.gopt.bopt.right{background:#3DDC84!important}.gopt.bopt.wrong{background:#FF5C7A!important;color:#FFFFFF}
+.towerbox{display:flex;justify-content:center;align-items:flex-start}
+.tower{width:100%;max-width:150px;height:auto}
+.tower .elev{transition:transform .7s cubic-bezier(.3,1.25,.5,1)}
+@media (max-width:640px){.bopts{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:1100px){.lab{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:900px){
   .app{grid-template-columns:minmax(0,1fr)}
@@ -675,7 +685,7 @@ section.block>p.lead{margin-top:12px}
             <span style="left:48%;top:36%;--s:1.8rem;--r:6deg;--d:-4s">≠</span>
           </div>
           <div>
-            <div class="eyebrow">Secundaria · 12 temas · 13 juegos</div>
+            <div class="eyebrow">Secundaria · 12 temas · 16 juegos</div>
             <h1>Mate<span>máticas</span></h1>
             <p class="lede">Explora, resuelve paso a paso y juega. Cada respuesta correcta te da puntos de experiencia para subir de nivel.</p>
             <div class="hstats">
@@ -687,7 +697,7 @@ section.block>p.lead{margin-top:12px}
           </div>
           <div class="hart" aria-hidden="true"><div class="hcard a">x²</div><div class="hcard b">½</div><div class="hcard c">√</div></div>
         </header>
-        <div class="home-h"><h2>Elige un tema</h2><span>Las tarjetas amarillas tienen juego.</span></div>
+        <div class="home-h"><h2>Elige un tema</h2><span>Todos los temas tienen juegos.</span></div>
         <div class="tgrid" id="tgrid"></div>
       </div>
 
@@ -723,6 +733,12 @@ section.block>p.lead{margin-top:12px}
         </div>
         <aside class="info" id="info" aria-live="polite"></aside>
       </div>
+
+      <section class="block" id="c-juego">
+        <h2>Juego: Detective de cuerpos</h2>
+        <p class="lead">Lee las pistas y descubre qué cuerpo geométrico es. Entre menos pistas uses, más puntos ganas.</p>
+        <div id="gDetect"></div>
+      </section>
 
       <section class="block" id="conceptos">
         <h2>Conceptos clave</h2>
@@ -850,6 +866,12 @@ section.block>p.lead{margin-top:12px}
               </ul>
             </div>
           </div>
+        </section>
+
+        <section class="block" id="r-juego">
+          <h2>Juego: Gran Premio de raíces</h2>
+          <p class="lead">Responde preguntas de raíces y cuadrados para acelerar tu auto. ¡Gánale al rival antes de que llegue a la meta!</p>
+          <div id="gRace"></div>
         </section>
 
         <section class="block" id="r-ejercicios">
@@ -1016,6 +1038,12 @@ section.block>p.lead{margin-top:12px}
             <div class="panel err"><b>(−4) × (−2) ≠ −8</b><p>En la multiplicación, signos iguales dan positivo: (−4) × (−2) = +8.</p></div>
             <div class="panel err"><b>5 − (−3) ≠ 2</b><p>Primero se eliminan los paréntesis: −(−3) = +3. Entonces 5 + 3 = 8.</p></div>
           </div>
+        </section>
+
+        <section class="block" id="s-juego">
+          <h2>Juego: Elevador de signos</h2>
+          <p class="lead">Suma, resta, multiplica y divide con signos para mover el elevador entre los pisos y los sótanos.</p>
+          <div id="gElev"></div>
         </section>
 
         <section class="block" id="s-ejercicios">
@@ -3192,11 +3220,139 @@ StepSet({key:'tbx',list:'#tbList',prog:'#tbProg',progTxt:'#tbProgTxt',btn:'#tbNe
     i=K2.indexOf(k===';'?'ñ':k);if(i>=0){hit(2,i);e.preventDefault()}});
 })();
 
+/* =========================================================
+   JUEGOS DE LOS PRIMEROS TEMAS
+   ========================================================= */
+/* Íconos 3D de los cuerpos, dibujados una sola vez con Three.js */
+let BICON=null;
+function bodyIcons(){if(BICON)return BICON;BICON={};
+  if(!ok)return BICON;
+  try{const r=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});r.setPixelRatio(1);r.setSize(160,160,false);
+    const sc=new THREE.Scene();sc.add(new THREE.HemisphereLight(0xffffff,0x8892a6,.95));const L=new THREE.DirectionalLight(0xffffff,.75);L.position.set(4,8,6);sc.add(L);
+    const cam=new THREE.PerspectiveCamera(32,1,.1,200);
+    BODIES.forEach(b=>{const d=b.build(b.p);
+      const m=new THREE.Mesh(d.geo,new THREE.MeshStandardMaterial({color:b.color,roughness:.45,flatShading:d.flat,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1}));
+      const pos=[];d.pairs.forEach(([a,c])=>pos.push(a.x,a.y,a.z,c.x,c.y,c.z));const lg=new THREE.BufferGeometry();lg.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
+      const ln=new THREE.LineSegments(lg,new THREE.LineBasicMaterial({color:0x1B1240}));
+      const grp=new THREE.Group();grp.add(m,ln);d.geo.computeBoundingBox();const bb=d.geo.boundingBox,sz=new THREE.Vector3();bb.getSize(sz);
+      grp.position.y=-(bb.min.y+bb.max.y)/2;grp.rotation.y=.6;sc.add(grp);const R=Math.max(sz.x,sz.y,sz.z);
+      cam.position.set(R*1.45,R*1.1,R*1.95);cam.lookAt(0,0,0);r.render(sc,cam);BICON[b.id]=r.domElement.toDataURL('image/png');
+      sc.remove(grp);d.geo.dispose();lg.dispose();m.material.dispose();ln.material.dispose()});
+    r.dispose();if(r.forceContextLoss)r.forceContextLoss()}catch(e){}
+  return BICON}
+const bodyPic=b=>{const ic=bodyIcons()[b.id];return ic?`<img src="${ic}" alt="" draggable="false">`:flatSVG(b.svg,b.color)};
+
+/* Juego Tema 01: Detective de cuerpos */
+(function(){
+  const CLUES={cubo:['Soy un poliedro: todas mis caras son planas.','Tengo 6 caras, 12 aristas y 8 vértices.','Todas mis caras son cuadrados iguales, como un dado.'],
+    prisma:['Tengo 2 bases iguales y paralelas.','Tengo 6 caras y todas son rectángulos.','Una caja de zapatos tiene mi forma.'],
+    triprisma:['Tengo 2 bases iguales y paralelas.','Mis bases son triángulos.','Tengo 5 caras, 9 aristas y 6 vértices.'],
+    piramide:['Mis caras laterales son triángulos que se juntan en un punto.','Mi base es un cuadrado.','Tengo 5 caras, 8 aristas y 5 vértices.'],
+    tetra:['Soy un poliedro regular: todas mis caras son iguales.','Mis caras son triángulos equiláteros.','Tengo solo 4 caras, 6 aristas y 4 vértices.'],
+    octa:['Soy un poliedro regular: todas mis caras son iguales.','Parezco dos pirámides unidas por la base.','Tengo 8 caras triangulares.'],
+    dodeca:['Soy un poliedro regular: todas mis caras son iguales.','Tengo 20 vértices y 30 aristas.','Mis 12 caras son pentágonos.'],
+    icosa:['Soy un poliedro regular: todas mis caras son iguales.','Tengo 30 aristas y 12 vértices.','Mis 20 caras son triángulos.'],
+    cilindro:['Soy un cuerpo redondo.','Tengo 2 bases circulares y una superficie curva.','Una lata de refresco tiene mi forma.'],
+    cono:['Soy un cuerpo redondo.','Tengo una sola base circular.','Termino en punta, como un cono de helado.'],
+    esfera:['Soy un cuerpo redondo.','No tengo caras planas, ni aristas, ni vértices.','Todos mis puntos están a la misma distancia del centro.']};
+  let order,round,cur,shown,opts;const ROUNDS=10;
+  const g=Shell($('#gDetect'),{key:'detect',title:'Detective de cuerpos',how:'Lee las pistas y adivina de qué cuerpo geométrico se trata. Si aciertas con la primera pista ganas 30 puntos; con dos, 20; con tres, 10. Son 10 rondas.',start});
+  function start(){bodyIcons();order=shuffle(BODIES.slice()).slice(0,ROUNDS);round=0;next()}
+  function next(){if(!g.running)return;if(round>=ROUNDS){g.end();return}cur=order[round++];shown=1;delete g.stage.dataset.lock;g.x(`Ronda ${round} de ${ROUNDS}`);g.time(1-(round-1)/ROUNDS);
+    const same=shuffle(BODIES.filter(b=>b!==cur&&b.group===cur.group)),other=shuffle(BODIES.filter(b=>b!==cur&&b.group!==cur.group));
+    opts=shuffle([cur,...same.slice(0,2),...other].slice(0,4));
+    g.stage.innerHTML=`<div class="gsub">¿Quién soy?</div><ol class="clues"></ol><button class="gbtn alt" data-more style="padding:8px 18px;font-size:.95rem">Otra pista</button>
+      <div class="gopts bopts">${opts.map((b,i)=>`<button class="gopt bopt" data-i="${i}">${bodyPic(b)}<span>${b.name}</span></button>`).join('')}</div><div class="gfb"></div>`;
+    g.stage.querySelector('[data-more]').onclick=more;g.stage.querySelectorAll('.bopt').forEach(b=>b.onclick=()=>guess(b));clues()}
+  function clues(){const C=CLUES[cur.id];g.stage.querySelector('.clues').innerHTML=C.slice(0,shown).map((c,i)=>`<li class="${i===shown-1?'popin':''}"><b>Pista ${i+1}:</b> ${c}</li>`).join('');
+    g.stage.querySelector('[data-more]').hidden=shown>=3;g.mid(`Vale ${[30,20,10][shown-1]} pts`)}
+  function more(){if(shown<3){shown++;snd('pop');clues()}}
+  function guess(b){if(!g.running||g.stage.dataset.lock)return;const pickB=opts[+b.dataset.i],fb=g.stage.querySelector('.gfb');
+    if(pickB===cur){g.stage.dataset.lock=1;b.classList.add('right');snd('ok');g.add([30,20,10][shown-1],b);burstAt(b,24);
+      fb.innerHTML=`¡Correcto! Es ${['esfera','piramide'].includes(cur.id)?'la':'el'} <b>${cur.name}</b>: ${cur.counts.map(c=>`${c[1]} ${c[0].toLowerCase()}`).join(' · ')}.`;g.later(next,2000)}
+    else{b.classList.add('wrong');b.disabled=true;snd('bad');fb.innerHTML=`No es ${pickB.name.toLowerCase()}. ${shown<3?'Te doy otra pista.':'Fíjate bien en las pistas.'}`;if(shown<3){shown++;clues()}}}
+})();
+
+/* Juego Tema 02: Gran Premio de raíces */
+(function(){
+  const GOAL=12,BOT_SECS=80;let hits,me,bot,q,last,lockUntil;
+  const g=Shell($('#gRace'),{key:'race',title:'Gran Premio de raíces',how:'Cada respuesta correcta hace avanzar tu auto. El auto rival avanza solo y llega a la meta en 80 segundos. Necesitas 12 respuestas correctas para ganar. Un error te deja frenado un segundo.',start});
+  const car=(c,lab)=>`<g><rect x="-30" y="-14" width="60" height="20" rx="8" fill="${c}" stroke="#0B0624" stroke-width="2"/><path d="M-14 -14l6-10h18l8 10z" fill="${c}" stroke="#0B0624" stroke-width="2"/><path d="M-6 -22h8v7h-12z" fill="#BFEFFF"/>
+    <circle cx="-17" cy="7" r="7" fill="#0B0624"/><circle cx="17" cy="7" r="7" fill="#0B0624"/><circle cx="-17" cy="7" r="2.5" fill="#DDD"/><circle cx="17" cy="7" r="2.5" fill="#DDD"/>
+    <text x="0" y="1" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" font-weight="800" fill="#0B0624">${lab}</text></g>`;
+  function make(){const t=rnd(0,3);let txt,ans,o;
+    if(t===0){const k=rnd(2,15);txt=`√${k*k} = ?`;ans=String(k);o=[k,k+1,k-1,2*k,Math.round(k*k/2)]}
+    else if(t===1){let n;do{n=rnd(5,220)}while(Number.isInteger(Math.sqrt(n)));const k=Math.floor(Math.sqrt(n));txt=`√${n} está entre…`;ans=`${k} y ${k+1}`;
+      o=[ans,`${k-1} y ${k}`,`${k+1} y ${k+2}`,`${Math.floor(n/2)} y ${Math.floor(n/2)+1}`,`${k+2} y ${k+3}`]}
+    else if(t===2){const k=rnd(3,15);txt=`${k}² = ?`;ans=String(k*k);o=[k*k,2*k,k*k+k,k*k-k,(k+1)*(k+1)]}
+    else{const k=rnd(3,14);txt='¿Cuál es un cuadrado perfecto?';ans=String(k*k);o=[k*k,k*k+1,k*k+k,k*k-2,(k+1)*(k+1)-1]}
+    o=[...new Set(o.map(String))].filter(v=>!v.startsWith('-')&&v!=='0'&&v!=='0 y 1');if(!o.includes(ans))o.unshift(ans);
+    return{txt,ans,opts:shuffle([ans,...shuffle(o.filter(v=>v!==ans)).slice(0,3)])}}
+  function start(){hits=0;me=0;bot=0;lockUntil=0;
+    g.stage.innerHTML=`<svg class="gsvg" viewBox="0 0 680 170" role="img" aria-label="Pista de carreras"><rect x="0" y="20" width="680" height="130" rx="16" fill="#2A2A3A"/>
+      <path d="M0 85H680" stroke="#FFE15A" stroke-width="3" stroke-dasharray="18 14"/>
+      ${Array.from({length:8},(_,i)=>`<rect x="636" y="${20+i*16.25}" width="10" height="16.25" fill="${i%2?'#FFF':'#111'}"/><rect x="646" y="${20+i*16.25}" width="10" height="16.25" fill="${i%2?'#111':'#FFF'}"/>`).join('')}
+      <text x="651" y="14" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-size="12" font-weight="800" fill="#FFE15A">META</text>
+      <g class="cme" transform="translate(50,62)">${car('#FFE15A','TÚ')}</g><g class="cbot" transform="translate(50,128)">${car('#7CF0FF','RIVAL')}</g></svg>
+      <div class="gq popin"></div><div class="gopts"></div><div class="gfb"></div>`;
+    last=performance.now();g.raf=requestAnimationFrame(loop);next()}
+  function loop(now){if(!g.running)return;const dt=Math.min(.05,(now-last)/1000);last=now;bot+=dt/BOT_SECS;me+=((hits/GOAL)-me)*Math.min(1,dt*6);
+    const X=p=>50+Math.min(1,p)*560;g.stage.querySelector('.cme').setAttribute('transform',`translate(${X(me).toFixed(1)},62)`);g.stage.querySelector('.cbot').setAttribute('transform',`translate(${X(bot).toFixed(1)},128)`);
+    g.time(1-bot);g.mid(`${hits} de ${GOAL}`);
+    if(hits>=GOAL&&me>.985){g.add(50);confetti();g.end('<p><b>¡Ganaste la carrera!</b> Bonus de 50 puntos.</p>');return}
+    if(bot>=1){g.end(`<p>El rival llegó primero. Lograste ${hits} de ${GOAL} respuestas.</p>`);return}g.raf=requestAnimationFrame(loop)}
+  function next(){if(!g.running)return;q=make();const el=g.stage.querySelector('.gq');el.textContent=q.txt;el.classList.remove('popin');void el.offsetWidth;el.classList.add('popin');
+    const box=g.stage.querySelector('.gopts');box.innerHTML=q.opts.map((v,i)=>`<button class="gopt" data-i="${i}">${v}</button>`).join('');box.querySelectorAll('.gopt').forEach(b=>b.onclick=()=>answer(b))}
+  function answer(b){if(!g.running||performance.now()<lockUntil)return;const v=q.opts[+b.dataset.i],fb=g.stage.querySelector('.gfb');
+    if(v===q.ans){b.classList.add('right');snd('ok');hits++;g.add(10,b);fb.textContent='';lockUntil=performance.now()+250;g.later(next,250)}
+    else{b.classList.add('wrong');snd('bad');lockUntil=performance.now()+1000;
+      fb.innerHTML=q.txt.startsWith('√')&&q.txt.includes('entre')?`${q.ans.split(' y ')[0]}² = ${(+q.ans.split(' y ')[0])**2} y ${q.ans.split(' y ')[1]}² = ${(+q.ans.split(' y ')[1])**2}: la respuesta es ${q.ans}.`:`La respuesta es ${q.ans}.`;
+      g.stage.querySelectorAll('.gopt').forEach(x=>{if(q.opts[+x.dataset.i]===q.ans)x.classList.add('right')});g.later(()=>{fb.textContent='';next()},1500)}}
+})();
+
+/* Juego Tema 03: Elevador de signos */
+(function(){
+  let cur,q,combo,streak;const FH=15.5,Y=f=>12+(10-f)*FH;
+  const g=Shell($('#gElev'),{key:'elev',title:'Elevador de signos',how:'La torre tiene pisos positivos y sótanos negativos. Resuelve la operación para saber a qué piso va el elevador; cada respuesta sale del piso donde quedaste. Tienes 60 segundos.',start});
+  function make(){for(let tries=0;tries<200;tries++){const t=rnd(0,9);let v,op,ans;
+      if(t<4){v=rs()*rnd(1,9);op='+';ans=cur+v}else if(t<7){v=rs()*rnd(1,9);op='−';ans=cur-v}
+      else if(t<9){v=pick([-3,-2,-1,2,3]);op='×';ans=cur*v;if(!cur)continue}else{v=pick([-3,-2,-1,2,3]);op='÷';if(!cur||cur%v)continue;ans=cur/v}
+      if(Math.abs(ans)>10||ans===cur)continue;
+      const o=new Set([ans,-ans,op==='+'?cur-v:op==='−'?cur+v:Math.abs(ans)===ans?-ans:Math.abs(ans)]);for(const d of shuffle([1,-1,2,-2,3]))if(o.size<4)o.add(ans+d);
+      const opts=shuffle([...o].filter(x=>Math.abs(x)<=12).slice(0,4));if(!opts.includes(ans))continue;
+      return{v,op,ans,expr:`${pr(cur)} ${op} ${pr(v)}`,opts}}
+    return{v:1,op:'+',ans:cur+1,expr:`${pr(cur)} + (+1)`,opts:shuffle([cur+1,cur-1,-(cur+1)||2,cur+2])}}
+  function why(){const{v,op,ans}=q;
+    if(op==='×'||op==='÷')return`Signos ${Math.sign(cur)===Math.sign(v)?'iguales: el resultado es positivo':'diferentes: el resultado es negativo'}. ${Math.abs(cur)} ${op} ${Math.abs(v)} = ${Math.abs(ans)} → ${sg(ans)}`;
+    const m=op==='+'?v:-v,pre=op==='−'?`Restar es sumar el opuesto: ${pr(cur)} + ${pr(m)}. `:'';
+    if(!cur)return pre+`Desde 0 te mueves ${sg(m)}: piso ${sg(ans)}.`;
+    return pre+(Math.sign(cur)===Math.sign(m)?`Signos iguales: ${Math.abs(cur)} + ${Math.abs(m)} = ${Math.abs(ans)} y se conserva el signo → ${sg(ans)}`:`Signos diferentes: ${Math.max(Math.abs(cur),Math.abs(m))} − ${Math.min(Math.abs(cur),Math.abs(m))} = ${Math.abs(ans)}, con el signo del mayor → ${sg(ans)}`)}
+  function tower(){let s=`<rect x="34" y="4" width="92" height="${Y(-10)+FH-4}" rx="8" fill="#E8E2FF"/><rect x="34" y="${Y(-.5)}" width="92" height="${Y(-10)+FH-Y(-.5)}" fill="#5B4636"/>`;
+    for(let f=10;f>=-10;f--){const y=Y(f);s+=`<line x1="34" y1="${y+FH/2}" x2="126" y2="${y+FH/2}" stroke="${f<0?'#3E2F25':'#CFC5F2'}"/>`+
+      `<text x="28" y="${y+4}" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9" font-weight="700" fill="${f<0?'#FF9BAE':f>0?'#B8F56E':'#FFE15A'}">${sg(f)}</text>`;
+      if(f)s+=`<rect x="98" y="${y-4}" width="8" height="8" fill="${f<0?'#7A6250':'#9DD8FF'}"/><rect x="110" y="${y-4}" width="8" height="8" fill="${f<0?'#7A6250':'#9DD8FF'}"/>`}
+    s+=`<rect x="20" y="${Y(0)+FH/2-1}" width="120" height="4" fill="#3DDC84"/><text x="80" y="${Y(-10)+FH+12}" text-anchor="middle" font-size="9" fill="#FFF" font-family="Inter,sans-serif">sótanos abajo del 0</text>`;
+    s+=`<g class="elev" style="transform:translateY(${Y(0)}px)"><rect x="44" y="-7" width="40" height="14" rx="3" fill="#FFE15A" stroke="#0B0624" stroke-width="2"/><line x1="64" y1="-7" x2="64" y2="7" stroke="#0B0624"/></g>`;
+    return`<svg viewBox="0 0 140 ${Y(-10)+FH+18}" class="tower" aria-hidden="true">${s}</svg>`}
+  function moveTo(f){g.stage.querySelector('.elev').style.transform=`translateY(${Y(f)}px)`}
+  function start(){cur=0;combo=1;streak=0;
+    g.stage.innerHTML=`<div class="rk"><div class="rkmain"><div class="gsub" data-where>El elevador está en la planta baja (piso 0).</div><div class="gq"></div><div class="gopts"></div><div class="gfb"></div></div><div class="towerbox">${tower()}</div></div>`;
+    countdown(g,60,()=>g.end());next()}
+  function next(){if(!g.running)return;q=make();delete g.stage.dataset.lock;g.x('Combo x'+combo);
+    g.stage.querySelector('[data-where]').textContent=cur===0?'El elevador está en la planta baja (piso 0).':`El elevador está en el piso ${sg(cur)}.`;
+    const el=g.stage.querySelector('.gq');el.textContent=q.expr;el.classList.remove('popin');void el.offsetWidth;el.classList.add('popin');
+    const box=g.stage.querySelector('.gopts');box.innerHTML=q.opts.map(v=>`<button class="gopt" data-v="${v}">Piso ${sg(v)}</button>`).join('');box.querySelectorAll('.gopt').forEach(b=>b.onclick=()=>answer(b))}
+  function answer(b){if(!g.running||g.stage.dataset.lock)return;g.stage.dataset.lock=1;const v=+b.dataset.v,fb=g.stage.querySelector('.gfb');moveTo(q.ans);
+    if(v===q.ans){b.classList.add('right');snd('ok');streak++;if(streak%3===0)combo=Math.min(5,combo+1);g.add(10*combo,b);fb.textContent='';cur=q.ans;g.later(next,650)}
+    else{b.classList.add('wrong');snd('bad');streak=0;combo=1;g.x('Combo x1');g.stage.querySelectorAll('.gopt').forEach(x=>{if(+x.dataset.v===q.ans)x.classList.add('right')});
+      fb.textContent=why();cur=q.ans;g.later(next,2600)}}
+})();
+
 /* ---------- Navegación entre temas ---------- */
 const TOPICS={
-  'cuerpos-geometricos':{num:'01',name:'Cuerpos geométricos',c:'#2563EB',g:'3D',game:'Laboratorio 3D',nav:[['lab','Laboratorio 2D → 3D'],['conceptos','Conceptos clave'],['euler','Fórmula de Euler'],['reto','Reto']]},
-  'raiz-cuadrada':{num:'02',name:'Raíz cuadrada',c:'#7C3AED',g:'√',game:'Explorador del cuadrado',nav:[['r-que','¿Qué es?'],['r-explorador','Explorador del cuadrado'],['r-propiedades','Propiedades'],['r-aplicaciones','Aplicaciones'],['r-ejercicios','Ejercicios paso a paso']]},
-  'ley-de-los-signos':{num:'03',name:'Ley de los signos',c:'#E11D48',g:'±',game:'Recta numérica',nav:[['s-intro','¿Qué son los signos?'],['s-suma','Suma y resta'],['s-recta','Recta numérica'],['s-mult','Multiplicación y división'],['s-ejercicios','Ejercicios paso a paso']]},
+  'cuerpos-geometricos':{num:'01',name:'Cuerpos geométricos',c:'#2563EB',g:'3D',game:'Detective de cuerpos',play:1,nav:[['lab','Laboratorio 2D → 3D'],['c-juego','Juego'],['conceptos','Conceptos clave'],['euler','Fórmula de Euler'],['reto','Reto']]},
+  'raiz-cuadrada':{num:'02',name:'Raíz cuadrada',c:'#7C3AED',g:'√',game:'Gran Premio de raíces',play:1,nav:[['r-que','¿Qué es?'],['r-explorador','Explorador del cuadrado'],['r-propiedades','Propiedades'],['r-aplicaciones','Aplicaciones'],['r-juego','Juego'],['r-ejercicios','Ejercicios paso a paso']]},
+  'ley-de-los-signos':{num:'03',name:'Ley de los signos',c:'#E11D48',g:'±',game:'Elevador de signos',play:1,nav:[['s-intro','¿Qué son los signos?'],['s-suma','Suma y resta'],['s-recta','Recta numérica'],['s-mult','Multiplicación y división'],['s-juego','Juego'],['s-ejercicios','Ejercicios paso a paso']]},
   'secuencias-cuadraticas':{num:'04',name:'Secuencias cuadráticas',c:'#C026D3',g:'n²',game:'Detective de secuencias',play:1,nav:[['q-que','¿Qué es?'],['q-lab','Laboratorio'],['q-juego','Juego'],['q-ejercicios','Ejercicios paso a paso']]},
   'ecuaciones-cuadraticas':{num:'05',name:'Ecuaciones cuadráticas',c:'#EA580C',g:'x²',game:'Revienta las raíces',play:1,nav:[['e-que','¿Qué es?'],['e-lab','Graficador'],['e-juego','Juego'],['e-ejercicios','Ejercicios paso a paso']]},
   'fracciones-basicas':{num:'06',name:'Fracciones',c:'#059669',g:'¾',game:'Pizzería express',play:1,nav:[['p-que','¿Qué es?'],['p-pizzeria','Pizzería interactiva'],['p-tipos','Tipos'],['p-equiv','Equivalentes'],['p-suma','Suma y resta'],['p-juegos','Juegos'],['p-ejercicios','Ejercicios paso a paso']]},
@@ -3237,5 +3393,3 @@ showTopic(location.hash.slice(1),false);
 if(ok)requestAnimationFrame(frame);
 })();
 </script>
-
-</body></html>
