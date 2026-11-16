@@ -673,6 +673,35 @@ section.block>p.lead{margin-top:12px}
 .ilview.real{display:block}
 .ilview.real img{max-width:none;max-height:none;display:block;margin:0 auto;cursor:zoom-out}
 @media (prefers-reduced-motion: reduce){.hs:hover,.hs:focus-visible{transform:translateY(-2px)}}
+/* ---------- Menú contraíble ---------- */
+.sidehead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sidetog{flex:none;width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.1);color:#FFFFFF;cursor:pointer;display:grid;place-items:center;transition:background .15s}
+.sidetog:hover{background:rgba(255,255,255,.22)}
+.sidetog svg{width:20px;height:20px;transition:transform .3s}
+.app{transition:grid-template-columns .3s ease}
+.xpmini{display:none}
+@media (min-width:901px){
+  .app.mini{grid-template-columns:80px minmax(0,1fr)}
+  .app.mini .side{padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:10px;align-items:stretch;overflow-x:hidden}
+  .app.mini .sidehead{flex-direction:column;gap:10px}
+  .app.mini .brand>span:last-child,.app.mini .side h4,.app.mini .inthis-nav,.app.mini .sig,.app.mini .xprow,.app.mini .xptools,.app.mini .topic small{display:none}
+  .app.mini .xpcard{padding:6px 4px;text-align:center}
+  .app.mini .xpmini{display:block;font:800 .78rem var(--f-display)}
+  .app.mini .xpbar{margin-top:4px;height:6px}
+  .app.mini .topic{justify-content:center;padding:5px 0;font-size:0;gap:0}
+  .app.mini .topic:hover{transform:none}
+  .app.mini .sidetog svg{transform:rotate(180deg)}
+}
+@media (max-width:900px){
+  .sidetog svg{transform:rotate(90deg)}
+  .app.mini .side nav,.app.mini .xpcard{display:none}
+  .app.mini .sidetog svg{transform:rotate(-90deg)}
+}
+/* ---------- Pitágoras ---------- */
+.sticks{display:flex;flex-direction:column;gap:12px;width:min(460px,100%)}
+.sticks div{display:flex;align-items:center;gap:12px}
+.sticks span{height:16px;border-radius:99px;box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.sticks b{font:800 1.5rem var(--f-mono)}
 @media (max-width:1100px){.lab{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:900px){
   .app{grid-template-columns:minmax(0,1fr)}
@@ -692,11 +721,15 @@ section.block>p.lead{margin-top:12px}
 
 <div class="app">
   <aside class="side" aria-label="Menú">
-    <button class="brand" data-home aria-label="Ir a la portada">
-      <span class="logo" aria-hidden="true">π</span>
-      <span><b>Matemáticas</b><span>Aprende jugando · Secundaria</span></span>
-    </button>
+    <div class="sidehead">
+      <button class="brand" data-home aria-label="Ir a la portada">
+        <span class="logo" aria-hidden="true">π</span>
+        <span><b>Matemáticas</b><span>Aprende jugando · Secundaria</span></span>
+      </button>
+      <button class="sidetog" id="sideTog" aria-expanded="true" aria-label="Contraer el menú de temas" title="Contraer menú"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
     <div class="xpcard" aria-live="polite">
+      <div class="xpmini" id="xpMini">Nv 1</div>
       <div class="xprow"><span class="xplvl" id="xpLvl">Nivel 1 · Novato</span><span class="xpnum" id="xpNum">0 XP</span></div>
       <div class="xpbar"><i id="xpBar"></i></div>
       <div class="xptools"><span id="xpNext">50 XP para subir</span><button id="sndBtn" aria-pressed="true">Sonido: sí</button></div>
@@ -725,13 +758,13 @@ section.block>p.lead{margin-top:12px}
             <span style="left:48%;top:36%;--s:1.8rem;--r:6deg;--d:-4s">≠</span>
           </div>
           <div>
-            <div class="eyebrow">Secundaria · 12 temas · 16 juegos</div>
+            <div class="eyebrow">Secundaria · 13 temas · 18 juegos</div>
             <h1>Mate<span>máticas</span></h1>
             <p class="lede">Explora, resuelve paso a paso y juega. Cada respuesta correcta te da puntos de experiencia para subir de nivel.</p>
             <div class="hstats">
               <div class="hstat"><b id="hsLvl">1</b><span>Tu nivel</span></div>
               <div class="hstat"><b id="hsXp">0</b><span>XP</span></div>
-              <div class="hstat"><b>12</b><span>Temas</span></div>
+              <div class="hstat"><b>13</b><span>Temas</span></div>
             </div>
             <div class="by">powered by <b>elprofe chan</b></div>
           </div>
@@ -1612,6 +1645,103 @@ section.block>p.lead{margin-top:12px}
         </section>
       </div>
 
+      <!-- ===================== TEOREMA DE PITÁGORAS ===================== -->
+      <div class="view" id="v-pitagoras" hidden>
+        <div class="topic-head" id="py-que"><div>
+          <div class="tag">Tema</div>
+          <h2>Teorema de Pitágoras</h2>
+          <p>En todo triángulo rectángulo, el cuadrado de la hipotenusa es igual a la suma de los cuadrados de los catetos: <span class="math">c² = a² + b²</span>. Sirve para calcular un lado cuando conoces los otros dos.</p>
+        </div></div>
+
+        <div class="rgrid">
+          <div class="panel">
+            <h3>Partes del triángulo rectángulo</h3>
+            <svg class="gsvg" viewBox="0 0 300 200" role="img" aria-label="Triángulo rectángulo con catetos a y b e hipotenusa c">
+              <polygon points="50,170 250,170 50,40" fill="color-mix(in srgb,var(--tc) 14%,var(--surface))" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M50 150h20v20" fill="none" stroke="var(--ink)" stroke-width="2"/>
+              <text x="150" y="192" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="800" font-size="16" fill="var(--pop2)">a (cateto)</text>
+              <text x="40" y="110" text-anchor="end" font-family="JetBrains Mono,monospace" font-weight="800" font-size="16" fill="var(--pop1)">b</text>
+              <text x="160" y="96" font-family="JetBrains Mono,monospace" font-weight="800" font-size="16" fill="var(--accent)">c (hipotenusa)</text>
+              <text x="74" y="162" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)">90°</text>
+            </svg>
+            <ul class="dlist" style="margin-top:8px">
+              <li><span class="k" style="background:var(--pop2)">Catetos</span><span>Los dos lados que forman el ángulo recto (90°).</span></li>
+              <li><span class="k" style="background:var(--tc)">Hipotenusa</span><span>El lado más largo; está frente al ángulo recto.</span></li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Las fórmulas</h3>
+            <div class="formula-big">c² = a² + b²</div>
+            <ul class="dlist" style="margin-top:12px">
+              <li><span class="k" style="background:var(--tc)">Hipotenusa</span><span class="math">c = √(a² + b²)</span></li>
+              <li><span class="k" style="background:var(--pop2)">Cateto a</span><span class="math">a = √(c² − b²)</span></li>
+              <li><span class="k" style="background:var(--pop1)">Cateto b</span><span class="math">b = √(c² − a²)</span></li>
+            </ul>
+            <p class="pt" style="margin-top:12px">Para la hipotenusa se <b>suman</b> los cuadrados; para un cateto se <b>restan</b>.</p>
+          </div>
+          <div class="panel">
+            <h3>Un poco de historia</h3>
+            <p class="pt">Lleva el nombre de Pitágoras de Samos, matemático griego del siglo VI a. C. Pero los babilonios ya conocían esta relación más de mil años antes: una tablilla de barro llamada Plimpton 322 tiene una lista de ternas como 3, 4, 5.</p>
+            <p class="pt">Se cuenta que los constructores usaban una cuerda con 12 nudos para formar un triángulo de lados 3, 4 y 5 y así trazar ángulos rectos perfectos.</p>
+          </div>
+        </div>
+
+        <section class="block" id="py-lab">
+          <h2>Los cuadrados de los lados</h2>
+          <p class="lead">Sobre cada lado del triángulo se dibuja un cuadrado. El área del cuadrado grande (c²) siempre es igual a la suma de las áreas de los dos pequeños (a² + b²). Cuenta los cuadritos.</p>
+          <div class="sqlab">
+            <div class="sqbox"><svg id="pySvg" class="gsvg" viewBox="0 0 360 360" role="img" aria-label="Triángulo rectángulo con un cuadrado sobre cada lado"></svg></div>
+            <div class="sqside">
+              <div class="sqctl">
+                <div class="seg" role="group" aria-label="Qué calcular"><button class="tbtn" data-pym="c" aria-pressed="true">Calcular la hipotenusa</button><button class="tbtn" data-pym="b" aria-pressed="false">Calcular un cateto</button></div>
+                <div class="param"><label for="pyA">Cateto a</label><output id="pyAo" class="math"></output><input type="range" id="pyA" min="1" max="12" value="3"></div>
+                <div class="param" id="pyBrow"><label for="pyB">Cateto b</label><output id="pyBo" class="math"></output><input type="range" id="pyB" min="1" max="12" value="4"></div>
+                <div class="param" id="pyCrow" hidden><label for="pyC">Hipotenusa c</label><output id="pyCo" class="math"></output><input type="range" id="pyC" min="2" max="17" value="5"></div>
+              </div>
+              <div class="sqread" id="pyRead" aria-live="polite"></div>
+            </div>
+          </div>
+          <div class="sub" style="margin-top:16px">Ternas pitagóricas · toca una</div>
+          <div class="chips" id="pyTriples" style="grid-template-columns:repeat(auto-fill,minmax(132px,1fr))"></div>
+        </section>
+
+        <section class="block" id="py-prueba">
+          <h2>¿Por qué funciona?</h2>
+          <p class="lead">Una demostración sin palabras: los mismos 4 triángulos se acomodan de dos formas dentro del mismo cuadrado. Lo que queda libre en los dos casos tiene la misma área.</p>
+          <div class="sqlab">
+            <div class="sqbox"><svg id="pyProof" class="gsvg" viewBox="0 0 320 320" role="img" aria-label="Demostración con cuatro triángulos dentro de un cuadrado"></svg></div>
+            <div class="sqread">
+              <div class="big" id="pyProofTitle" style="font-size:clamp(1.4rem,3vw,2rem)">Lo que queda libre: c²</div>
+              <p id="pyProofTxt">Los 4 triángulos están en las esquinas. El espacio libre en medio es un cuadrado de lado c: su área es <b>c²</b>.</p>
+              <div class="calcrow"><button class="tbtn primary" id="pyProofBtn">Reacomodar los triángulos</button></div>
+              <p class="pt" style="margin-top:12px">El cuadrado grande y los 4 triángulos no cambian; solo se mueven. Por eso el espacio libre vale lo mismo en los dos acomodos: <b>c² = a² + b²</b>.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="block" id="py-usos">
+          <h2>En la vida real</h2>
+          <p class="lead">Siempre que aparece un ángulo recto, el teorema ayuda a medir lo que no se puede medir directamente.</p>
+          <div class="lawgrid" id="pyUses"></div>
+        </section>
+
+        <section class="block" id="py-juegos">
+          <h2>Juegos</h2>
+          <p class="lead">Ayuda a los bomberos con la escalera correcta y decide rápido qué triángulos son rectángulos.</p>
+          <div style="display:flex;flex-direction:column;gap:22px">
+            <div id="gLadder"></div>
+            <div id="gRight"></div>
+          </div>
+        </section>
+
+        <section class="block" id="py-ejercicios">
+          <h2>Ejercicios paso a paso</h2>
+          <p class="lead">Calcula hipotenusas, catetos y distancias. Todos los resultados son números enteros.</p>
+          <div class="exbar"><div class="prog" aria-hidden="true"><i id="pyProg"></i></div><b id="pyProgTxt"></b><button class="tbtn" id="pyNew">Generar ejercicios nuevos</button></div>
+          <div class="exlist" id="pyList"></div>
+        </section>
+      </div>
+
       <footer><span id="footTxt">Portal de Matemáticas · Tema 01: Cuerpos geométricos</span><span>powered by elprofe chan</span></footer>
     </div>
   </main>
@@ -2058,7 +2188,7 @@ function drawDiag(a){
   $('#dgVal').textContent=a+' cm';
   $('#dgRead').innerHTML=`<div class="big">d = ${a}√2 ≈ ${fmt(d)} cm</div>
     <p class="mono">d² = a² + a² = ${a*a} + ${a*a} = ${2*a*a}<br>d = ${Rd(2*a*a)} = ${a}√2 ≈ ${fmt(d)} cm</p>
-    <p>La diagonal parte el cuadrado en dos triángulos rectángulos. Esa idea es el Teorema de Pitágoras, un tema próximo.</p>`;
+    <p>La diagonal parte el cuadrado en dos triángulos rectángulos. Esa idea es el Teorema de Pitágoras (Tema 13).</p>`;
 }
 $('#dgRange').addEventListener('input',e=>drawDiag(+e.target.value));
 drawDiag(5);
@@ -2318,7 +2448,7 @@ const lvlName=L=>LEVELS[Math.min(L-1,LEVELS.length-1)];
 function renderXP(){const L=lvlOf(XP),a=needXP(L),b=needXP(L+1);
   $('#xpLvl').textContent=`Nivel ${L} · ${lvlName(L)}`;$('#xpNum').textContent=XP+' XP';
   $('#xpBar').style.width=((XP-a)/(b-a)*100)+'%';$('#xpNext').textContent=`${b-XP} XP para subir`;
-  $('#hsLvl').textContent=L;$('#hsXp').textContent=XP}
+  $('#hsLvl').textContent=L;$('#hsXp').textContent=XP;$('#xpMini').textContent='Nv '+L}
 function xp(n,msg,quiet){if(!(n>0))return;const before=lvlOf(XP);XP+=n;store.set('xp',XP);renderXP();
   if(!quiet)toast(`<b>+${n} XP</b>${msg?' · '+msg:''}`);
   const L=lvlOf(XP);if(L>before)setTimeout(()=>{toast(`<b>¡Subiste a nivel ${L}!</b> Ahora eres ${lvlName(L)}`);confetti();snd('lvl')},350)}
@@ -3497,6 +3627,165 @@ function igMount(key,topicId){const ig=INFOG[key],root=document.querySelector(`[
 
 igMount('c','cuerpos-geometricos');igMount('r','raiz-cuadrada');igMount('s','ley-de-los-signos');
 
+/* =========================================================
+   TEOREMA DE PITÁGORAS
+   ========================================================= */
+const PYT=[[3,4,5],[6,8,10],[5,12,13],[9,12,15],[8,15,17],[12,16,20],[7,24,25],[15,20,25],[10,24,26],[20,21,29],[18,24,30]];
+const r1=v=>Number.isInteger(v)?String(v):fmt(v,2);
+let pyMode='c';
+function pyDraw(){const A=$('#pyA'),B=$('#pyB'),C=$('#pyC');let a=+A.value,b,c;
+  if(pyMode==='c'){b=+B.value;c=Math.sqrt(a*a+b*b)}else{c=+C.value;if(c<=a){c=a+1;C.value=c}b=Math.sqrt(c*c-a*a)}
+  $('#pyAo').textContent=a;$('#pyBo').textContent=pyMode==='c'?b:r1(b);$('#pyCo').textContent=c;
+  const s=Math.min(320/(a+2*b),320/(2*a+b)),W=(a+2*b)*s,H=(2*a+b)*s,ox=(360-W)/2,oy=(360-H)/2;
+  const X=x=>ox+(x+b)*s,Y=y=>oy+(a+b-y)*s,P=pts=>pts.map(([x,y])=>`${X(x).toFixed(1)},${Y(y).toFixed(1)}`).join(' ');
+  const sqA=[[0,0],[a,0],[a,-a],[0,-a]],sqB=[[0,0],[0,b],[-b,b],[-b,0]],sqC=[[a,0],[0,b],[b,b+a],[a+b,a]];
+  let g='';
+  const grid=(o,u,v,n,m)=>{let d='';for(let i=1;i<n;i++)d+=`M${X(o[0]+u[0]*i).toFixed(1)} ${Y(o[1]+u[1]*i).toFixed(1)}L${X(o[0]+u[0]*i+v[0]*m).toFixed(1)} ${Y(o[1]+u[1]*i+v[1]*m).toFixed(1)}`;return d};
+  g+=`<polygon points="${P(sqA)}" fill="color-mix(in srgb,var(--pop2) 30%,transparent)" stroke="var(--pop2)" stroke-width="2"/>`;
+  g+=`<polygon points="${P(sqB)}" fill="color-mix(in srgb,var(--pop1) 26%,transparent)" stroke="var(--pop1)" stroke-width="2"/>`;
+  g+=`<polygon points="${P(sqC)}" fill="color-mix(in srgb,var(--tc) 24%,transparent)" stroke="var(--tc)" stroke-width="2"/>`;
+  if(a<=16&&Number.isInteger(a))g+=`<path d="${grid([0,0],[1,0],[0,-1],a,a)}${grid([0,0],[0,-1],[1,0],a,a)}" stroke="var(--pop2)" stroke-width=".8" opacity=".7"/>`;
+  if(Number.isInteger(b)&&b<=16)g+=`<path d="${grid([0,0],[0,1],[-1,0],b,b)}${grid([0,0],[-1,0],[0,1],b,b)}" stroke="var(--pop1)" stroke-width=".8" opacity=".7"/>`;
+  const u=[-a/c,b/c],n=[b/c,a/c],cf=Math.floor(c-1e-9);
+  if(c<=24)g+=`<path d="${grid([a,0],u,n,cf+1,c)}${grid([a,0],n,u,cf+1,c)}" stroke="var(--tc)" stroke-width=".8" opacity=".6"/>`;
+  g+=`<polygon points="${P([[0,0],[a,0],[0,b]])}" fill="var(--surface)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>`;
+  const rk=Math.min(a,b)*s*.18;g+=`<path d="M${X(0)+rk} ${Y(0)}v${-rk}h${-rk}" fill="none" stroke="var(--ink)" stroke-width="1.6"/>`;
+  const lab=(x,y,t,c2,sz=15)=>`<text x="${X(x).toFixed(1)}" y="${Y(y).toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-family="JetBrains Mono,monospace" font-weight="800" font-size="${sz}" fill="${c2}">${t}</text>`;
+  g+=lab(a/2,-a/2,`a² = ${a*a}`,'var(--ink)',Math.max(10,Math.min(15,a*s/5)))+lab(-b/2,b/2,`b² = ${r1(b*b)}`,'var(--ink)',Math.max(10,Math.min(15,b*s/5)))+lab((a+b)/2,(a+b)/2,`c² = ${r1(c*c)}`,'var(--ink)',Math.max(11,Math.min(17,c*s/5)));
+  g+=lab(a/2,.0,'',"none")+`<text x="${X(a/2)}" y="${Y(0)-6}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-weight="800" font-size="13" fill="var(--pop2)">a</text><text x="${X(0)+8}" y="${Y(b/2)}" font-family="JetBrains Mono,monospace" font-weight="800" font-size="13" fill="var(--pop1)">b</text>`;
+  $('#pySvg').innerHTML=g;
+  $('#pyRead').innerHTML=pyMode==='c'?`<div class="big" style="font-size:clamp(1.5rem,3.4vw,2.2rem)">c ${Number.isInteger(c)?'=':'≈'} ${r1(c)}</div>
+    <div class="stp"><span class="k">Paso 1</span><span>${M(`a² + b² = ${a}² + ${b}² = ${a*a} + ${b*b} = ${a*a+b*b}`)}</span><span class="k">Paso 2</span><span>${M(`c = √${a*a+b*b} ${Number.isInteger(c)?'=':'≈'} ${r1(c)}`)}</span></div>
+    <p class="pt" style="margin-top:10px">${Number.isInteger(c)?`¡${a}, ${b} y ${c} es una terna pitagórica! Los tres lados son enteros.`:`${a*a+b*b} no es cuadrado perfecto, así que la hipotenusa no es entera.`}</p>`
+   :`<div class="big" style="font-size:clamp(1.5rem,3.4vw,2.2rem)">b ${Number.isInteger(b)?'=':'≈'} ${r1(b)}</div>
+    <div class="stp"><span class="k">Paso 1</span><span>${M(`c² − a² = ${c}² − ${a}² = ${c*c} − ${a*a} = ${c*c-a*a}`)}</span><span class="k">Paso 2</span><span>${M(`b = √${c*c-a*a} ${Number.isInteger(b)?'=':'≈'} ${r1(b)}`)}</span></div>
+    <p class="pt" style="margin-top:10px">Para un cateto se <b>resta</b>: al cuadrado grande le quitas el cuadrado del cateto que ya conoces.</p>`;
+  document.querySelectorAll('#pyTriples .chip2').forEach(x=>x.setAttribute('aria-pressed',pyMode==='c'&&+x.dataset.a===a&&+x.dataset.b===b?'true':'false'));
+  pyProofDraw()}
+$('#pyTriples').innerHTML=PYT.filter(t=>t[0]<=16&&t[1]<=16).map(t=>`<button class="chip2" data-a="${t[0]}" data-b="${t[1]}">${t.join(' · ')}</button>`).join('');
+$('#pyTriples').addEventListener('click',e=>{const t=e.target.closest('.chip2');if(!t)return;pySetMode('c');$('#pyA').value=t.dataset.a;$('#pyB').value=t.dataset.b;pyDraw()});
+function pySetMode(m){pyMode=m;document.querySelectorAll('[data-pym]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.pym===m));$('#pyBrow').hidden=m!=='c';$('#pyCrow').hidden=m==='c'}
+document.querySelectorAll('[data-pym]').forEach(b=>b.addEventListener('click',()=>{pySetMode(b.dataset.pym);if(pyMode==='b'){$('#pyA').value=5;$('#pyC').value=13}pyDraw()}));
+['#pyA','#pyB','#pyC'].forEach(id=>$(id).addEventListener('input',pyDraw));
+
+/* Demostración con 4 triángulos */
+let pyProofB=false,pyProofT=0,pyProofAnim=0;
+function pyProofDraw(){const a=+$('#pyA').value,b=pyMode==='c'?+$('#pyB').value:Math.sqrt((+$('#pyC').value)**2-a*a),s=a+b,k=280/s,o=20;
+  const A=[[0,0,0],[s,0,90],[s,s,180],[0,s,270]],Bc=[[0,a,0],[s,0,90],[a,s,180],[a,a,270]],t=pyProofT,e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+  const cols=['#7C3AED','#00B8D9','#FF3D8B','#F59E0B'];let g=`<rect x="${o}" y="${o}" width="${s*k}" height="${s*k}" fill="var(--surface-2)" stroke="var(--ink)" stroke-width="3"/>`;
+  const P=pts=>pts.map(([x,y])=>`${(o+x*k).toFixed(1)},${(o+y*k).toFixed(1)}`).join(' ');
+  g+=`<polygon points="${P([[a,0],[s,a],[b,s],[0,b]])}" fill="color-mix(in srgb,var(--tc) 30%,transparent)" opacity="${1-e}"/>`;
+  g+=`<rect x="${o}" y="${o}" width="${a*k}" height="${a*k}" fill="color-mix(in srgb,var(--pop2) 35%,transparent)" opacity="${e}"/><rect x="${o+a*k}" y="${o+a*k}" width="${b*k}" height="${b*k}" fill="color-mix(in srgb,var(--pop1) 30%,transparent)" opacity="${e}"/>`;
+  A.forEach((p,i)=>{const q=Bc[i],tx=p[0]+(q[0]-p[0])*e,ty=p[1]+(q[1]-p[1])*e;
+    g+=`<polygon points="0,0 ${(a*k).toFixed(1)},0 0,${(b*k).toFixed(1)}" transform="translate(${(o+tx*k).toFixed(1)},${(o+ty*k).toFixed(1)}) rotate(${p[2]})" fill="${cols[i]}" fill-opacity=".85" stroke="#1B1240" stroke-width="2" stroke-linejoin="round"/>`});
+  const L=(x,y,txt,op)=>`<text x="${(o+x*k).toFixed(1)}" y="${(o+y*k).toFixed(1)}" text-anchor="middle" dominant-baseline="middle" font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="26" fill="var(--ink)" opacity="${op}">${txt}</text>`;
+  g+=L(s/2,s/2,'c²',1-e)+L(a/2,a/2,'a²',e)+L(a+b/2,a+b/2,'b²',e);
+  $('#pyProof').innerHTML=g}
+$('#pyProofBtn').addEventListener('click',()=>{pyProofB=!pyProofB;const from=pyProofT,to=pyProofB?1:0,t0=performance.now();cancelAnimationFrame(pyProofAnim);snd('pop');
+  $('#pyProofTitle').textContent=pyProofB?'Lo que queda libre: a² + b²':'Lo que queda libre: c²';
+  $('#pyProofTxt').innerHTML=pyProofB?'Ahora los triángulos forman dos rectángulos. Lo libre son dos cuadrados: uno de lado a y otro de lado b. Su área es <b>a² + b²</b>.':'Los 4 triángulos están en las esquinas. El espacio libre en medio es un cuadrado de lado c: su área es <b>c²</b>.';
+  const step=now=>{const f=REDUCE?1:Math.min(1,(now-t0)/1200);pyProofT=from+(to-from)*f;pyProofDraw();if(f<1)pyProofAnim=requestAnimationFrame(step)};pyProofAnim=requestAnimationFrame(step)});
+pyDraw();
+
+/* Usos */
+const ico=d=>`<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true" style="float:right;margin:0 0 6px 8px">${d}</svg>`;
+$('#pyUses').innerHTML=[
+  ['Escaleras',ico('<path d="M50 6V60M4 60h56" stroke="var(--muted)" stroke-width="3"/><path d="M14 60L48 14" stroke="var(--tc)" stroke-width="4" stroke-linecap="round"/>'),'Una escalera de 5 m se apoya con la base a 3 m de la pared. ¿A qué altura llega?','√(5² − 3²) = √16 = <b>4 m</b>'],
+  ['Pantallas',ico('<rect x="10" y="6" width="44" height="52" rx="7" fill="none" stroke="var(--ink)" stroke-width="3"/><path d="M14 54L50 10" stroke="var(--tc)" stroke-width="3" stroke-dasharray="4 3"/>'),'Las pulgadas de un celular o una tele miden su diagonal. Una pantalla de 6 cm × 8 cm mide en diagonal…','√(6² + 8²) = √100 = <b>10 cm</b>'],
+  ['Canchas',ico('<rect x="4" y="14" width="56" height="36" fill="none" stroke="var(--ok)" stroke-width="3"/><path d="M32 14v36M6 48L58 16" stroke="var(--tc)" stroke-width="3"/>'),'Cruzar en diagonal una cancha de 40 m × 30 m en vez de ir por las orillas (70 m):','√(40² + 30²) = √2500 = <b>50 m</b>'],
+  ['Plano cartesiano',ico('<path d="M8 4v52h52" stroke="var(--muted)" stroke-width="2"/><circle cx="16" cy="44" r="4" fill="var(--pop1)"/><circle cx="44" cy="16" r="4" fill="var(--pop2)"/><path d="M16 44L44 16M16 44H44V16" stroke="var(--tc)" stroke-width="2.5" stroke-dasharray="0"/>'),'Distancia entre los puntos (1, 2) y (4, 6): los catetos son 4 − 1 = 3 y 6 − 2 = 4.','√(3² + 4²) = √25 = <b>5 unidades</b>'],
+  ['Construcción',ico('<path d="M10 54V10M10 54h44" stroke="var(--ink)" stroke-width="4"/><path d="M10 22L42 54" stroke="var(--tc)" stroke-width="3" stroke-dasharray="5 3"/>'),'Para revisar que una esquina esté a escuadra, el albañil mide 3 m en una pared y 4 m en la otra. Si la diagonal mide exactamente 5 m…','3² + 4² = 5² → <b>el ángulo es recto</b>']]
+  .map(([t,i,p,r])=>`<div class="law">${i}<span class="ln">${t}</span><p>${p}</p><div class="le" style="color:var(--ink)">${r}</div></div>`).join('');
+
+/* Ejercicios paso a paso */
+function pyE1(a,b){const c=Math.sqrt(a*a+b*b);return{tag:'Hipotenusa',title:`Un triángulo rectángulo tiene catetos a = ${a} y b = ${b}. ¿Cuánto mide la hipotenusa?`,steps:[
+    {t:'n',a:a*a,p:`Eleva el primer cateto al cuadrado: ${a}² = ?`,h:`${a} × ${a}.`,ok:`a² = ${a*a}`},
+    {t:'n',a:b*b,p:`Eleva el segundo cateto al cuadrado: ${b}² = ?`,h:`${b} × ${b}.`,ok:`b² = ${b*b}`},
+    {t:'n',a:a*a+b*b,p:`Para la hipotenusa se suman: ${a*a} + ${b*b} = ?`,h:'Suma los dos cuadrados.',ok:`c² = ${a*a+b*b}`},
+    {t:'n',a:c,p:`Saca la raíz cuadrada: c = √${a*a+b*b} = ?`,h:`¿Qué número multiplicado por sí mismo da ${a*a+b*b}?`,ok:`c = ${c}`}],
+    done:`c = √(${a}² + ${b}²) = √(${a*a} + ${b*b}) = √${a*a+b*b} = <b>${c}</b>`}}
+function pyE2(c,a){const b=Math.sqrt(c*c-a*a);return{tag:'Cateto',title:`La hipotenusa mide ${c} y un cateto mide ${a}. ¿Cuánto mide el otro cateto?`,steps:[
+    {t:'n',a:c*c,p:`Eleva la hipotenusa al cuadrado: ${c}² = ?`,h:`${c} × ${c}.`,ok:`c² = ${c*c}`},
+    {t:'n',a:a*a,p:`Eleva el cateto que conoces: ${a}² = ?`,h:`${a} × ${a}.`,ok:`a² = ${a*a}`},
+    {t:'n',a:c*c-a*a,p:`Para un cateto se restan: ${c*c} − ${a*a} = ?`,h:'Al cuadrado de la hipotenusa le quitas el del cateto.',ok:`b² = ${c*c-a*a}`},
+    {t:'n',a:b,p:`Saca la raíz cuadrada: b = √${c*c-a*a} = ?`,h:`¿Qué número multiplicado por sí mismo da ${c*c-a*a}?`,ok:`b = ${b}`}],
+    done:`b = √(${c}² − ${a}²) = √(${c*c} − ${a*a}) = √${c*c-a*a} = <b>${b}</b>`}}
+function pyE3(L,d){const h=Math.sqrt(L*L-d*d);return{tag:'Problema',title:`Una escalera de ${L} m se apoya en una pared con la base a ${d} m de la pared. ¿A qué altura llega?`,steps:[
+    {t:'c',o:shuffle(['La escalera','La pared','El piso']),a:'La escalera',p:'¿Cuál es la hipotenusa (el lado más largo, frente al ángulo recto)?',h:'La pared y el piso forman el ángulo recto.',ok:`La escalera es la hipotenusa: c = ${L}. La distancia en el piso es un cateto: ${d}.`},
+    {t:'n',a:L*L,p:`${L}² = ?`,h:`${L} × ${L}.`,ok:`${L}² = ${L*L}`},
+    {t:'n',a:d*d,p:`${d}² = ?`,h:`${d} × ${d}.`,ok:`${d}² = ${d*d}`},
+    {t:'n',a:L*L-d*d,p:`Buscamos un cateto, así que restamos: ${L*L} − ${d*d} = ?`,h:'Resta los cuadrados.',ok:`h² = ${L*L-d*d}`},
+    {t:'n',a:h,p:`h = √${L*L-d*d} = ?`,h:`¿Qué número multiplicado por sí mismo da ${L*L-d*d}?`,ok:`La escalera llega a ${h} m.`}],
+    done:`<b>Respuesta:</b> llega a ${h} m de altura. √(${L}² − ${d}²) = √${L*L-d*d} = ${h}`}}
+function pyE4(a,b,c){const s=a*a+b*b,yes=s===c*c;return{tag:'¿Es rectángulo?',title:`¿Un triángulo con lados ${a}, ${b} y ${c} es rectángulo?`,steps:[
+    {t:'n',a:s,p:`Suma los cuadrados de los dos lados menores: ${a}² + ${b}² = ?`,h:`${a*a} + ${b*b}.`,ok:`${a}² + ${b}² = ${s}`},
+    {t:'n',a:c*c,p:`Eleva al cuadrado el lado mayor: ${c}² = ?`,h:`${c} × ${c}.`,ok:`${c}² = ${c*c}`},
+    {t:'c',o:['Sí','No'],a:yes?'Sí':'No',p:`¿${s} es igual a ${c*c}? Entonces, ¿es rectángulo?`,h:'Solo es rectángulo si los dos resultados son iguales.',ok:yes?'Sí: cumple el teorema, así que es rectángulo.':`No: ${s} ≠ ${c*c}, no es rectángulo.`}],
+    done:yes?`${a}² + ${b}² = ${c}² → <b>sí es rectángulo</b>.`:`${a}² + ${b}² = ${s} y ${c}² = ${c*c} → <b>no es rectángulo</b>.`}}
+function pyE5(x1,y1,x2,y2){const dx=Math.abs(x2-x1),dy=Math.abs(y2-y1),d=Math.sqrt(dx*dx+dy*dy);return{tag:'Distancia en el plano',title:`¿Cuál es la distancia entre los puntos (${x1}, ${y1}) y (${x2}, ${y2})?`,steps:[
+    {t:'n',a:dx,p:`Cateto horizontal: diferencia de las x, ${x2} − ${x1} = ?`,h:'Resta las coordenadas x.',ok:`Cateto horizontal: ${dx}`},
+    {t:'n',a:dy,p:`Cateto vertical: diferencia de las y, ${y2} − ${y1} = ?`,h:'Resta las coordenadas y.',ok:`Cateto vertical: ${dy}`},
+    {t:'n',a:dx*dx+dy*dy,p:`Suma los cuadrados: ${dx}² + ${dy}² = ?`,h:`${dx*dx} + ${dy*dy}.`,ok:`${dx*dx+dy*dy}`},
+    {t:'n',a:d,p:`Distancia = √${dx*dx+dy*dy} = ?`,h:`¿Qué número por sí mismo da ${dx*dx+dy*dy}?`,ok:`La distancia es ${d}.`}],
+    done:`d = √(${dx}² + ${dy}²) = √${dx*dx+dy*dy} = <b>${d}</b>`}}
+StepSet({key:'pyx',list:'#pyList',prog:'#pyProg',progTxt:'#pyProgTxt',btn:'#pyNew',
+  def:()=>[pyE1(6,8),pyE2(13,5),pyE3(10,6),pyE4(4,6,7),pyE5(1,2,4,6)],
+  gen:()=>{const T=()=>pick(PYT.filter(t=>t[2]<=26)),t1=T(),t2=T(),t3=T(),t4=T(),t5=pick(PYT.slice(0,5));const yes=Math.random()<.5;
+    const x1=rnd(-3,4),y1=rnd(-3,4),sw=Math.random()<.5;
+    return[pyE1(t1[0],t1[1]),pyE2(t2[2],pick([t2[0],t2[1]])),pyE3(t3[2],pick([t3[0],t3[1]])),yes?pyE4(t4[0],t4[1],t4[2]):pyE4(t4[0],t4[1],t4[2]+pick([-1,1])),
+      pyE5(x1,y1,x1+(sw?t5[0]:t5[1]),y1+(sw?t5[1]:t5[0]))]}});
+
+/* Juego: Escalera de bomberos */
+(function(){
+  let q,combo,streak;const S=8.4,GX=500,GY=300;
+  const g=Shell($('#gLadder'),{key:'ladder',title:'Escalera de bomberos',how:'Un gatito quedó atrapado en una ventana. Calcula el largo de la escalera, la altura o la distancia a la pared. Si aciertas, la escalera llega a la ventana y lo rescatas. Tienes 75 segundos.',start});
+  function make(){const t3=pick(PYT.filter(t=>t[2]<=30)),sw=Math.random()<.5,d=sw?t3[1]:t3[0],h=sw?t3[0]:t3[1],c=t3[2],t=rnd(0,2);let txt,ans,o;
+    if(t===0){txt=`La ventana está a <b>${h} m</b> de altura y la base de la escalera a <b>${d} m</b> de la pared. ¿Qué largo debe tener la escalera?`;ans=c;o=[c,h+d,c+2,c-3]}
+    else if(t===1){txt=`La escalera mide <b>${c} m</b> y su base está a <b>${d} m</b> de la pared. ¿A qué altura llega?`;ans=h;o=[h,c-d,h+2,h-2]}
+    else{txt=`La escalera mide <b>${c} m</b> y la ventana está a <b>${h} m</b> de altura. ¿A qué distancia de la pared va la base?`;ans=d;o=[d,c-h,d+2,d-2]}
+    o=[...new Set(o.filter(v=>v>0))];let k=1;while(o.length<4){if(!o.includes(ans+k))o.push(ans+k);k++}
+    return{d,h,c,txt,ans,opts:shuffle(o.slice(0,4))}}
+  function scene(){const wy=GY-q.h*S,bx=GX-q.d*S;let s=`<rect x="0" y="${GY}" width="640" height="30" fill="#2E7D32"/><rect x="${GX}" y="36" width="130" height="${GY-36}" fill="#B7A6F5" stroke="#1B1240" stroke-width="3"/>`;
+    for(let y=60;y<GY-20;y+=34)for(let x=GX+50;x<GX+106;x+=34)s+=`<rect x="${x}" y="${y}" width="22" height="20" rx="3" fill="#7CF0FF" opacity=".55"/>`;
+    s+=`<rect x="${GX+4}" y="${wy-16}" width="40" height="32" rx="4" fill="#FFE15A" stroke="#1B1240" stroke-width="2.5"/>
+      <g class="cat" transform="translate(${GX+24},${wy+6})"><circle r="10" fill="#F28C28" stroke="#1B1240" stroke-width="2"/><path d="M-9 -5l2-11 6 7M9 -5l-2-11-6 7" fill="#F28C28" stroke="#1B1240" stroke-width="2" stroke-linejoin="round"/><circle cx="-4" cy="-1" r="1.8" fill="#1B1240"/><circle cx="4" cy="-1" r="1.8" fill="#1B1240"/><path d="M-3 4q3 2 6 0" fill="none" stroke="#1B1240" stroke-width="1.5"/></g>
+      <path d="M${GX-6} ${wy}H${GX-22}" stroke="#FFE15A" stroke-width="2" stroke-dasharray="3 3"/><text x="${GX-26}" y="${wy+4}" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#FFE15A">${q.h} m</text>
+      <path d="M${bx} ${GY+14}H${GX}" stroke="#FFFFFF" stroke-width="2"/><text x="${(bx+GX)/2}" y="${GY+26}" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#FFFFFF">${q.d} m</text>
+      <g transform="translate(${bx-96},${GY-34})"><rect width="80" height="26" rx="5" fill="#E11D48" stroke="#1B1240" stroke-width="2"/><rect x="56" y="-14" width="24" height="16" rx="3" fill="#E11D48" stroke="#1B1240" stroke-width="2"/><rect x="60" y="-10" width="14" height="9" fill="#BFEFFF"/><circle cx="16" cy="28" r="7" fill="#1B1240"/><circle cx="64" cy="28" r="7" fill="#1B1240"/></g>`;
+    let lad=`<path d="M0 -5H${q.c*S}M0 5H${q.c*S}" stroke="#E5E7EB" stroke-width="3"/>`;for(let x=10;x<q.c*S;x+=13)lad+=`<path d="M${x} -5V5" stroke="#E5E7EB" stroke-width="2.5"/>`;
+    s+=`<g class="lad" transform="translate(${bx},${GY}) rotate(0)">${lad}</g>`;return`<svg class="gsvg" viewBox="0 0 640 330" role="img" aria-label="Edificio, ventana y escalera">${s}</svg>`}
+  function start(){combo=1;streak=0;countdown(g,75,()=>g.end());next()}
+  function next(){if(!g.running)return;q=make();delete g.stage.dataset.lock;g.x('Combo x'+combo);
+    g.stage.innerHTML=`${scene()}<div class="gsub" style="font-size:1.05rem">${q.txt}</div><div class="gopts">${q.opts.map(v=>`<button class="gopt" data-v="${v}">${v} m</button>`).join('')}</div><div class="gfb"></div>`;
+    g.stage.querySelectorAll('.gopt').forEach(b=>b.onclick=()=>answer(b))}
+  function raise(cb){const lad=g.stage.querySelector('.lad'),bx=GX-q.d*S,th=Math.atan2(q.h,q.d)*180/PI,t0=performance.now();
+    const st=now=>{if(!g.running)return;const f=REDUCE?1:Math.min(1,(now-t0)/900),e=1-Math.pow(1-f,3);lad.setAttribute('transform',`translate(${bx},${GY}) rotate(${(-th*e).toFixed(2)})`);if(f<1)requestAnimationFrame(st);else cb&&cb()};requestAnimationFrame(st)}
+  function answer(b){if(!g.running||g.stage.dataset.lock)return;g.stage.dataset.lock=1;const v=+b.dataset.v,fb=g.stage.querySelector('.gfb');
+    g.stage.querySelectorAll('.gopt').forEach(x=>{if(+x.dataset.v===q.ans)x.classList.add('right')});
+    const how=`${q.c}² = ${q.d}² + ${q.h}² → ${q.c*q.c} = ${q.d*q.d} + ${q.h*q.h}`;
+    if(v===q.ans){snd('ok');streak++;if(streak%3===0)combo=Math.min(5,combo+1);g.add(20*combo,b);fb.textContent=`¡Rescatado! ${how}`;
+      raise(()=>{burstAt(g.stage.querySelector('.cat'),26);snd('lvl')});g.later(next,2100)}
+    else{b.classList.add('wrong');snd('bad');streak=0;combo=1;g.x('Combo x1');fb.textContent=`La respuesta era ${q.ans} m. ${how}`;raise();g.later(next,2900)}}
+})();
+
+/* Juego: ¿Es rectángulo? */
+(function(){
+  let q,combo,streak;
+  const g=Shell($('#gRight'),{key:'right',title:'¿Es rectángulo?',how:'Aparecen las medidas de tres lados. Decide si forman un triángulo rectángulo: el cuadrado del lado mayor debe ser igual a la suma de los cuadrados de los otros dos. Tienes 45 segundos.',start});
+  function make(){const t=pick(PYT.slice(0,8)),k=t[2]<=13?pick([1,1,2]):1;let a=t[0]*k,b=t[1]*k,c=t[2]*k;const yes=Math.random()<.5;
+    if(!yes){c+=pick([-1,1,2]);if(c<=Math.max(a,b))c=Math.max(a,b)+1;if(a*a+b*b===c*c)c++}
+    return{a,b,c,yes:a*a+b*b===c*c,show:shuffle([a,b,c])}}
+  function start(){combo=1;streak=0;countdown(g,45,()=>g.end());next()}
+  function next(){if(!g.running)return;q=make();delete g.stage.dataset.lock;g.x('Combo x'+combo);const mx=Math.max(...q.show);
+    g.stage.innerHTML=`<div class="gsub">¿Estos tres lados forman un triángulo rectángulo?</div><div class="sticks popin">${q.show.map((v,i)=>`<div><span style="width:${(v/mx*100).toFixed(1)}%;background:${['#FFE15A','#7CF0FF','#FF9BCB'][i]}"></span><b>${v}</b></div>`).join('')}</div>
+      <div class="sorter" style="grid-template-columns:1fr 1fr;width:min(420px,100%)"><button class="gopt" data-v="1">Sí</button><button class="gopt" data-v="0">No</button></div><div class="gfb"></div>`;
+    g.stage.querySelectorAll('.gopt').forEach(b=>b.onclick=()=>answer(b))}
+  function answer(b){if(!g.running||g.stage.dataset.lock)return;g.stage.dataset.lock=1;const v=b.dataset.v==='1',fb=g.stage.querySelector('.gfb'),{a,b:bb,c}=q;
+    const why=`${a}² + ${bb}² = ${a*a} + ${bb*bb} = ${a*a+bb*bb} y ${c}² = ${c*c}: ${q.yes?'son iguales, sí es rectángulo':'no son iguales, no es rectángulo'}.`;
+    if(v===q.yes){b.classList.add('right');snd('ok');streak++;if(streak%3===0)combo=Math.min(5,combo+1);g.add(10*combo,b);fb.textContent=why;g.later(next,900)}
+    else{b.classList.add('wrong');snd('bad');streak=0;combo=1;g.x('Combo x1');fb.textContent=why;g.later(next,2400)}}
+})();
+
 /* ---------- Navegación entre temas ---------- */
 const TOPICS={
   'cuerpos-geometricos':{num:'01',name:'Cuerpos geométricos',c:'#2563EB',g:'3D',game:'Detective de cuerpos',play:1,nav:[['c-info','Infografía'],['c-lab','Laboratorio 2D → 3D'],['c-juego','Juego'],['conceptos','Conceptos clave'],['euler','Fórmula de Euler'],['reto','Reto']]},
@@ -3511,10 +3800,15 @@ const TOPICS={
   'mcd':{num:'10',name:'Máximo común divisor',c:'#4F46E5',g:'MCD',game:'Baldosas maestras',play:1,nav:[['d-que','¿Qué es?'],['d-lab','Buscador de divisores'],['d-juego','Juego'],['d-ejercicios','Ejercicios paso a paso']]},
   'mcm':{num:'11',name:'Mínimo común múltiplo',c:'#0D9488',g:'mcm',game:'Ranas saltarinas',play:1,nav:[['m-que','¿Qué es?'],['m-lab','Buscador de múltiplos'],['m-juego','Juego'],['m-ejercicios','Ejercicios paso a paso']]},
   'tablas':{num:'12',name:'Tablas de multiplicar',c:'#DB2777',g:'×',game:'Cohete, Topos, Bingo y Duelo',play:1,multi:1,nav:[['tb-tabla','Elige tu tabla'],['tb-pita','Tabla pitagórica'],['tb-trucos','Trucos'],['tb-juegos','Juegos'],['tb-ejercicios','Ejercicios paso a paso']]},
+  'pitagoras':{num:'13',name:'Teorema de Pitágoras',c:'#0369A1',g:'c²',game:'Escalera de bomberos y ¿Es rectángulo?',play:1,multi:1,nav:[['py-que','¿Qué es?'],['py-lab','Cuadrados de los lados'],['py-prueba','¿Por qué funciona?'],['py-usos','En la vida real'],['py-juegos','Juegos'],['py-ejercicios','Ejercicios paso a paso']]},
 };
 Object.entries(TOPICS).forEach(([id,t])=>{const v=document.getElementById('v-'+id);v.style.setProperty('--tc',t.c);const h=v.querySelector('.topic-head');if(h){h.dataset.glyph=t.g;const tg=h.querySelector('.tag');if(tg)tg.textContent='Tema '+t.num}});
-$('#topicList').innerHTML=Object.entries(TOPICS).map(([id,t])=>`<li><button class="topic" data-topic="${id}" style="--tc:${t.c}"><span class="n">${t.num}</span>${t.name}</button></li>`).join('')+
-  `<li><button class="topic" disabled style="--tc:#64748B"><span class="n">13</span>Teorema de Pitágoras<small>Pronto</small></button></li>`;
+$('#topicList').innerHTML=Object.entries(TOPICS).map(([id,t])=>`<li><button class="topic" data-topic="${id}" style="--tc:${t.c}" title="${t.name}"><span class="n">${t.num}</span>${t.name}</button></li>`).join('');
+const appEl=$('.app'),sideTog=$('#sideTog');
+function setMini(m,save){appEl.classList.toggle('mini',m);sideTog.setAttribute('aria-expanded',String(!m));sideTog.setAttribute('aria-label',m?'Expandir el menú de temas':'Contraer el menú de temas');
+  sideTog.title=m?'Expandir menú':'Contraer menú';if(save)store.set('mini',m);setTimeout(()=>{if(ok&&topic==='cuerpos-geometricos')resize()},340)}
+sideTog.addEventListener('click',()=>{setMini(!appEl.classList.contains('mini'),true);snd('pop')});
+setMini(store.get('mini',false)===true,false);
 $('#tgrid').innerHTML=Object.entries(TOPICS).map(([id,t])=>`<button class="tile" data-topic="${id}" style="--tc:${t.c}"><span class="tn">TEMA ${t.num}</span><b>${t.name}</b><span class="tg" aria-hidden="true">${t.g}</span><span class="gm${t.play?' play':''}">${t.play?(t.multi?'Juegos: ':'Juego: '):''}${t.game}</span></button>`).join('');
 function showTopic(id,scroll){
   if(id!=='inicio'&&!TOPICS[id])id='inicio';
